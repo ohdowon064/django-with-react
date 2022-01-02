@@ -1,6 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import generics
 from .serializers import PostSerializer
 from .models import Post
+
+class PublicPostListAPIView(generics.ListCreateAPIView):
+    queryset = Post.objects.all() # Post.object.filter(is_public=True)
+    serializer_class = PostSerializer
+
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all() # 데이터의 범위 지정, 로직마다 달라질 경우 get_queryset 사용가능
