@@ -5,12 +5,6 @@ from rest_framework import generics
 from .serializers import PostSerializer
 from .models import Post
 
-class PublicPostListAPIView(generics.ListAPIView):
-    # queryset = Post.objects.all() # Post.object.filter(is_public=True)
-    queryset = Post.objects.filter(is_public=True)
-    serializer_class = PostSerializer
-
-
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all() # 데이터의 범위 지정, 로직마다 달라질 경우 get_queryset 사용가능
@@ -27,6 +21,6 @@ class PostViewSet(ModelViewSet):
     def set_public(self, request, pk):
         instance = self.get_object() # GenericAPIView의 get_object() 사용
         instance.is_public = True
-        instance.save(update_fields=["is_public"])
+        instance.save(update_fields=["is_public"]) # is_public 필드만 업데이트
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
